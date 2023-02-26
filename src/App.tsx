@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, theme } from 'antd';
 const { Header, Content, Footer } = Layout;
 import './App.css';
 
@@ -18,14 +18,6 @@ const App = () => {
           padding: '0 50px',
         }}
       >
-        <Breadcrumb
-          style={{
-            margin: '16px 0',
-          }}
-        >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>Live Score Board</Breadcrumb.Item>
-        </Breadcrumb>
         <div
           className="site-layout-content"
           style={{

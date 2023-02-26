@@ -1,6 +1,7 @@
 .site-layout-content {
-  min-height: calc(100vh - 185px);
+  min-height: calc(100vh - 180px);
   padding: 24px;
+  margin-top: 48px;
 }
 
 .logo {
