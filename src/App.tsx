@@ -1,6 +1,7 @@
-import { Breadcrumb, Layout, theme } from 'antd';
+import { Layout, theme } from 'antd';
 const { Header, Content, Footer } = Layout;
 import './App.css';
+import ScoreBoard from './components/ScoreBoard';
 
 const App = () => {
   const {
@@ -24,7 +25,7 @@ const App = () => {
             background: colorBgContainer,
           }}
         >
-          Content
+          <ScoreBoard />
         </div>
       </Content>
       <Footer
