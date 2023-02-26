@@ -1,12 +1,48 @@
-import './App.css'
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
+const { Header, Content, Footer } = Layout;
+import './App.css';
 
-function App() {
-
+const App = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
   return (
-    <div>
-      <h2>Live Scoreboard</h2>
-    </div>
-  )
-}
-
-export default App
+    <Layout className="layout">
+      <Header>
+        <div className="logo">
+          Live Football World Cup Score Board
+        </div>
+      </Header>
+      <Content
+        style={{
+          padding: '0 50px',
+        }}
+      >
+        <Breadcrumb
+          style={{
+            margin: '16px 0',
+          }}
+        >
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>Live Score Board</Breadcrumb.Item>
+        </Breadcrumb>
+        <div
+          className="site-layout-content"
+          style={{
+            background: colorBgContainer,
+          }}
+        >
+          Content
+        </div>
+      </Content>
+      <Footer
+        style={{
+          textAlign: 'center',
+        }}
+      >
+        Live Score Board App ©2023 Created by SRatna
+      </Footer>
+    </Layout>
+  );
+};
+export default App;
