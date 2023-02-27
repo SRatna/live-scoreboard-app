@@ -1,15 +1,18 @@
 import { Typography, Button } from 'antd';
 import { useState } from 'react';
-import { endGame, startNewGame, updateScore } from '../helpers';
+import { endGame, sortGames, startNewGame, updateScore } from '../helpers';
 import { Game } from '../models/Game';
 import AddNewGameModal from './AddNewGameModal';
 import ScoreBoardList from './ScoreBoardList';
+import ViewSummaryModal from './ViewSummaryModal';
 
 const { Title } = Typography;
 
 const ScoreBoard = () => {
   const [games, setGames] = useState<Game[]>([]);
+  const [sortedGames, setSortedGames] = useState<Game[]>([]);
   const [isAddGameModalOpen, setIsAddGameModalOpen] = useState(false);
+  const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
 
   const addNewGame = (homeTeamName: string, awayTeamName: string) => {
     const updatedGames = startNewGame(games, homeTeamName, awayTeamName);
@@ -26,11 +29,31 @@ const ScoreBoard = () => {
     setGames(updatedGames);
   }
 
+  const handleViewSummary = () => {
+    setSortedGames(sortGames(games));
+    setIsSummaryModalOpen(true);
+  }
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Title style={{ marginTop: 0 }} level={4}>Live Score Board</Title>
-        <Button type="primary" onClick={() => setIsAddGameModalOpen(true)}>Start New Game</Button>
+        <div>
+          <Button
+            disabled={!games.length}
+            style={{ marginRight: 8 }}
+            type="primary"
+            onClick={handleViewSummary}
+          >
+            View Summary
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => setIsAddGameModalOpen(true)}
+          >
+            Start New Game
+          </Button>
+        </div>
       </div>
       <ScoreBoardList
         games={games}
@@ -41,6 +64,11 @@ const ScoreBoard = () => {
         isOpen={isAddGameModalOpen}
         close={() => setIsAddGameModalOpen(false)}
         addNewGame={addNewGame}
+      />
+      <ViewSummaryModal
+        games={sortedGames}
+        isOpen={isSummaryModalOpen}
+        close={() => setIsSummaryModalOpen(false)}
       />
     </>
   )
