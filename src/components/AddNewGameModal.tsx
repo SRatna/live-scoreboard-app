@@ -20,7 +20,7 @@ const AddNewGameModal = ({ isOpen, close, addNewGame }: PropType) => {
 
   const handleOk = () => {
     try {
-      addNewGame(homeTeamName, awayTeamName);
+      addNewGame(homeTeamName.trim(), awayTeamName.trim());
       closeAndReset();
     } catch (e) {
       if (e instanceof Error) {
