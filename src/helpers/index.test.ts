@@ -1,55 +1,62 @@
 import { describe, expect, test } from '@jest/globals';
 import { Game } from '../models/Game';
-import { startNewGame, addNewGameToScoreboard, updateScore, endGame } from './index';
+import { startNewGame, updateScore, endGame } from './index';
+
+const games: Game[] = [
+  {
+    id: '123',
+    homeTeam: 'abc',
+    homeTeamScore: 0,
+    awayTeam: 'xyz',
+    awayTeamScore: 3,
+    startedAt: Date.now()
+  },
+  {
+    id: '456',
+    homeTeam: 'efg',
+    homeTeamScore: 3,
+    awayTeam: 'ijk',
+    awayTeamScore: 3,
+    startedAt: Date.now()
+  }
+]
 
 describe('helper function: start new game', () => {
-  test('throws: empty team names', () => {
-    expect(() => { startNewGame('', '') }).toThrow('Empty team names!');
+  test('throws on empty home team name', () => {
+    expect(() => { startNewGame(games, '', 'xyz') }).toThrow('Team name cannot be empty!');
   });
 
-  test('throws: empty home team name', () => {
-    expect(() => { startNewGame('', 'xyz') }).toThrow('Empty home team name!');
+  test('throws on empty away team name', () => {
+    expect(() => { startNewGame(games, 'abc', '') }).toThrow('Team name cannot be empty!');
   });
 
-  test('throws: empty away team name', () => {
-    expect(() => { startNewGame('abc', '') }).toThrow('Empty away team name!');
+  test('throws on empty team names', () => {
+    expect(() => { startNewGame(games, '', '') }).toThrow('Team name cannot be empty!');
   });
 
-  test('returns: new game with zero scores', () => {
-    const newGame: Game = startNewGame('abc', 'xyz');
-    expect(newGame).toHaveProperty('homeTeam', 'abc');
-    expect(newGame).toHaveProperty('homeTeamScore', 0);
-    expect(newGame).toHaveProperty('awayTeam', 'xyz');
-    expect(newGame).toHaveProperty('awayTeamScore', 0);
-  });
-});
-
-describe('helper function: add new game to scoreboard', () => {
-  const currentGames: Game[] = [];
-  const newGame = startNewGame('abc', 'xyz');
-  test('scoreboard should be of length 1', () => {
-    const scoreboard = addNewGameToScoreboard(currentGames, newGame);
-    expect(scoreboard).toHaveLength(1);
+  test('throws on repeated home team name', () => {
+    expect(() => { startNewGame(games, 'abc', 'pqr') }).toThrow('Team already exists in scoreboard!');
   });
 
-  test('scoreboard should have new Game at first', () => {
-    const scoreboard = addNewGameToScoreboard(currentGames, newGame);
-    expect(scoreboard[0]).toBe(newGame);
+  test('throws on repeated away team name', () => {
+    expect(() => { startNewGame(games, 'mno', 'xyz') }).toThrow('Team already exists in scoreboard!');
+  });
+
+  test('throws on repeated team names', () => {
+    expect(() => { startNewGame(games, 'abc', 'xyz') }).toThrow('Team already exists in scoreboard!');
+  });
+
+  test('returns new game added on scoreboard', () => {
+    const scoreboard: Game[] = startNewGame(games, 'mno', 'pqr');
+    expect(scoreboard).toHaveLength(3);
+    expect(scoreboard[0]).toHaveProperty('homeTeam', 'mno');
+    expect(scoreboard[0]).toHaveProperty('homeTeamScore', 0);
+    expect(scoreboard[0]).toHaveProperty('awayTeam', 'pqr');
+    expect(scoreboard[0]).toHaveProperty('awayTeamScore', 0);
   });
 });
 
 describe('helper function: update score', () => {
-  const games: Game[] = [
-    {
-      id: '123',
-      homeTeam: 'abc',
-      homeTeamScore: 0,
-      awayTeam: 'xyz',
-      awayTeamScore: 1,
-      startedAt: Date.now()
-    }
-  ]
-
   test('throws on empty games', () => {
     expect(() => { updateScore([], '', 0, 0) }).toThrow('Empty scoreboard!');
   });
@@ -82,25 +89,6 @@ describe('helper function: update score', () => {
 });
 
 describe('helper function: end game', () => {
-  const games: Game[] = [
-    {
-      id: '123',
-      homeTeam: 'abc',
-      homeTeamScore: 0,
-      awayTeam: 'xyz',
-      awayTeamScore: 3,
-      startedAt: Date.now()
-    },
-    {
-      id: '456',
-      homeTeam: 'efg',
-      homeTeamScore: 3,
-      awayTeam: 'ijk',
-      awayTeamScore: 3,
-      startedAt: Date.now()
-    }
-  ]
-
   test('throws on empty games', () => {
     expect(() => { endGame([], '') }).toThrow('Empty scoreboard!');
   });

@@ -1,17 +1,16 @@
 import { Game } from "../models/Game";
 import { v4 as uuidv4 } from 'uuid';
 
-export const startNewGame = (homeTeam: string, awayTeam: string) => {
-  if (!homeTeam && !awayTeam) {
-    throw new Error('Empty team names!');
+export const startNewGame = (currentGames: Game[], homeTeam: string, awayTeam: string) => {
+  if (!homeTeam || !awayTeam) throw new Error('Team name cannot be empty!');
+  const teamNames: string[] = currentGames.reduce(
+    (a: string[], { homeTeam, awayTeam }) => ([homeTeam, awayTeam, ...a]),
+    []
+  );
+  if (teamNames.includes(homeTeam) || teamNames.includes(awayTeam)) {
+    throw new Error('Team already exists in scoreboard!');
   }
-  if (!homeTeam) {
-    throw new Error('Empty home team name!');
-  }
-  if (!awayTeam) {
-    throw new Error('Empty away team name!');
-  }
-  return {
+  const newGame = {
     id: uuidv4(),
     homeTeam,
     homeTeamScore: 0,
@@ -19,9 +18,6 @@ export const startNewGame = (homeTeam: string, awayTeam: string) => {
     awayTeamScore: 0,
     startedAt: Date.now()
   }
-}
-
-export const addNewGameToScoreboard = (currentGames: Game[], newGame: Game) => {
   return [
     newGame,
     ...currentGames
