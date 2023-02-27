@@ -4,7 +4,7 @@ import { message, Input, Modal } from 'antd';
 interface PropType {
   isOpen: boolean
   close: () => void
-  addNewGame: (a: string, b: string) => void
+  addNewGame: (homeTeamName: string, awayTeamName: string) => void
 }
 
 const AddNewGameModal = ({ isOpen, close, addNewGame }: PropType) => {
@@ -36,10 +36,11 @@ const AddNewGameModal = ({ isOpen, close, addNewGame }: PropType) => {
     <>
       {contextHolder}
       <Modal title="Add New Game" open={isOpen} onOk={handleOk} onCancel={closeAndReset}>
-        <Input placeholder="Home team name" value={homeTeamName} onChange={(e) => setHomeTeamName(e.target.value)} />
+        <br />
+        <Input addonBefore="Home team name" value={homeTeamName} onChange={(e) => setHomeTeamName(e.target.value)} />
         <br />
         <br />
-        <Input placeholder="Away team name" value={awayTeamName} onChange={(e) => setAwayTeamName(e.target.value)} />
+        <Input addonBefore="Away team name" value={awayTeamName} onChange={(e) => setAwayTeamName(e.target.value)} />
       </Modal>
     </>
   );

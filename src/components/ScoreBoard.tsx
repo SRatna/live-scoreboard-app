@@ -1,6 +1,6 @@
 import { Typography, Button } from 'antd';
 import { useState } from 'react';
-import { endGame, startNewGame } from '../helpers';
+import { endGame, startNewGame, updateScore } from '../helpers';
 import { Game } from '../models/Game';
 import AddNewGameModal from './AddNewGameModal';
 import ScoreBoardList from './ScoreBoardList';
@@ -21,13 +21,22 @@ const ScoreBoard = () => {
     setGames(updatedGames);
   }
 
+  const handleUpdateScore = (id: string, homeTeamScore: number, awayTeamScore: number) => {
+    const updatedGames = updateScore(games, id, homeTeamScore, awayTeamScore);
+    setGames(updatedGames);
+  }
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Title style={{ marginTop: 0 }} level={4}>Live Score Board</Title>
         <Button type="primary" onClick={() => setIsAddGameModalOpen(true)}>Start New Game</Button>
       </div>
-      <ScoreBoardList games={games} handleEndGame={handleEndGame} />
+      <ScoreBoardList
+        games={games}
+        handleEndGame={handleEndGame}
+        handleUpdateScore={handleUpdateScore}
+      />
       <AddNewGameModal
         isOpen={isAddGameModalOpen}
         close={() => setIsAddGameModalOpen(false)}
