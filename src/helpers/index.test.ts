@@ -42,6 +42,10 @@ describe('helper function: start new game', () => {
     expect(() => { startNewGame(games, '', '') }).toThrow('Team name cannot be empty!');
   });
 
+  test('throws on same team names', () => {
+    expect(() => { startNewGame(games, 'abc', 'Abc') }).toThrow('Same team name not allowed!');
+  });
+
   test('throws on repeated home team name', () => {
     expect(() => { startNewGame(games, 'abc', 'pqr') }).toThrow('Team already exists in scoreboard!');
   });

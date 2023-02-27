@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const startNewGame = (currentGames: Game[], homeTeam: string, awayTeam: string) => {
   if (!homeTeam || !awayTeam) throw new Error('Team name cannot be empty!');
+  if (homeTeam.toLowerCase() === awayTeam.toLowerCase()) throw new Error('Same team name not allowed!');
   const teamNames: string[] = currentGames.reduce(
     (a: string[], { homeTeam, awayTeam }) => ([homeTeam, awayTeam, ...a]),
     []
