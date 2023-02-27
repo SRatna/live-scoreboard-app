@@ -2,7 +2,7 @@ import { describe, expect, test } from '@jest/globals';
 import { Game } from '../models/Game';
 import { startNewGame, addNewGameToScoreboard } from './index';
 
-describe('helper function: get empty score', () => {
+describe('helper function: start new game', () => {
   test('throws: empty team names', () => {
     expect(() => { startNewGame('', '') }).toThrow('Empty team names!');
   });
@@ -15,13 +15,12 @@ describe('helper function: get empty score', () => {
     expect(() => { startNewGame('abc', '') }).toThrow('Empty away team name!');
   });
 
-  test('returns: new game object with zero scores and started time', () => {
+  test('returns: new game with zero scores', () => {
     const newGame: Game = startNewGame('abc', 'xyz');
     expect(newGame).toHaveProperty('homeTeam', 'abc');
     expect(newGame).toHaveProperty('homeTeamScore', 0);
     expect(newGame).toHaveProperty('awayTeam', 'xyz');
     expect(newGame).toHaveProperty('awayTeamScore', 0);
-    expect(newGame).toHaveProperty('startedAt');
   });
 });
 

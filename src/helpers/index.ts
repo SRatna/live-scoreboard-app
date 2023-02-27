@@ -1,4 +1,5 @@
 import { Game } from "../models/Game";
+import { v4 as uuidv4 } from 'uuid';
 
 export const startNewGame = (homeTeam: string, awayTeam: string) => {
   if (!homeTeam && !awayTeam) {
@@ -11,6 +12,7 @@ export const startNewGame = (homeTeam: string, awayTeam: string) => {
     throw new Error('Empty away team name!');
   }
   return {
+    id: uuidv4(),
     homeTeam,
     homeTeamScore: 0,
     awayTeam,
