@@ -58,6 +58,10 @@ describe('helper function: start new game', () => {
     expect(() => { startNewGame(games, 'abc', 'xyz') }).toThrow('Team already exists in scoreboard!');
   });
 
+  test('throws on repeated team names with mixed case', () => {
+    expect(() => { startNewGame(games, 'Abc', 'xYz') }).toThrow('Team already exists in scoreboard!');
+  });
+
   test('returns new game added on scoreboard', () => {
     const scoreboard: Game[] = startNewGame(games, 'mno', 'pqr');
     expect(scoreboard).toHaveLength(games.length + 1);

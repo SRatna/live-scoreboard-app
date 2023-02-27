@@ -7,8 +7,8 @@ export const startNewGame = (currentGames: Game[], homeTeam: string, awayTeam: s
   const teamNames: string[] = currentGames.reduce(
     (a: string[], { homeTeam, awayTeam }) => ([homeTeam, awayTeam, ...a]),
     []
-  );
-  if (teamNames.includes(homeTeam) || teamNames.includes(awayTeam)) {
+  ).map((name) => name.toLowerCase());
+  if (teamNames.includes(homeTeam.toLowerCase()) || teamNames.includes(awayTeam.toLowerCase())) {
     throw new Error('Team already exists in scoreboard!');
   }
   const newGame = {
