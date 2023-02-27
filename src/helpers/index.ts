@@ -19,8 +19,8 @@ export const startNewGame = (currentGames: Game[], homeTeam: string, awayTeam: s
     startedAt: Date.now()
   }
   return [
-    newGame,
-    ...currentGames
+    ...currentGames,
+    newGame
   ];
 }
 

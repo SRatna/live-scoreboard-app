@@ -56,11 +56,11 @@ describe('helper function: start new game', () => {
 
   test('returns new game added on scoreboard', () => {
     const scoreboard: Game[] = startNewGame(games, 'mno', 'pqr');
-    expect(scoreboard).toHaveLength(4);
-    expect(scoreboard[0]).toHaveProperty('homeTeam', 'mno');
-    expect(scoreboard[0]).toHaveProperty('homeTeamScore', 0);
-    expect(scoreboard[0]).toHaveProperty('awayTeam', 'pqr');
-    expect(scoreboard[0]).toHaveProperty('awayTeamScore', 0);
+    expect(scoreboard).toHaveLength(games.length + 1);
+    expect(scoreboard[games.length]).toHaveProperty('homeTeam', 'mno');
+    expect(scoreboard[games.length]).toHaveProperty('homeTeamScore', 0);
+    expect(scoreboard[games.length]).toHaveProperty('awayTeam', 'pqr');
+    expect(scoreboard[games.length]).toHaveProperty('awayTeamScore', 0);
   });
 });
 
@@ -111,7 +111,7 @@ describe('helper function: end game', () => {
 
   test('returns new scoreboard with a game removed', () => {
     const scoreboard: Game[] = endGame(games, '123');
-    expect(scoreboard).toHaveLength(2);
+    expect(scoreboard).toHaveLength(games.length - 1);
     expect(scoreboard[0].id).toBe('456');
   });
 });
@@ -123,7 +123,7 @@ describe('helper function: sort games', () => {
 
   test('returns new scoreboard with sorted games', () => {
     const scoreboard: Game[] = sortGames(games);
-    expect(scoreboard).toHaveLength(3);
+    expect(scoreboard).toHaveLength(games.length);
     expect(scoreboard[0].id).toBe('789');
     expect(scoreboard[1].id).toBe('456');
     expect(scoreboard[2].id).toBe('123');
