@@ -11,10 +11,10 @@ interface PropType {
 
 const ScoreBoardList = ({ games, handleEndGame, handleUpdateScore }: PropType) => {
   const [isUpdateScoreModalOpen, setIsUpdateScoreModalOpen] = useState(false);
-  const [gameId, setGameId] = useState('');
+  const [gameBeingEdited, setGameBeingEdited] = useState<Game | null>(null);
 
-  const openModal = (id: string) => {
-    setGameId(id);
+  const openModal = (game: Game) => {
+    setGameBeingEdited(game);
     setIsUpdateScoreModalOpen(true);
   }
 
@@ -25,7 +25,7 @@ const ScoreBoardList = ({ games, handleEndGame, handleUpdateScore }: PropType) =
         dataSource={games}
         renderItem={(item) => (
           <List.Item actions={[
-            <a onClick={() => openModal(item.id)}>Update Score</a>,
+            <a onClick={() => openModal(item)}>Update Score</a>,
             <a onClick={() => handleEndGame(item.id)}>End Game</a>,
           ]}>
             <List.Item.Meta
@@ -34,12 +34,12 @@ const ScoreBoardList = ({ games, handleEndGame, handleUpdateScore }: PropType) =
           </List.Item>
         )}
       />
-      <UpdateScoreModal
-        gameId={gameId}
+      {gameBeingEdited && (<UpdateScoreModal
+        game={gameBeingEdited}
         isOpen={isUpdateScoreModalOpen}
         close={() => setIsUpdateScoreModalOpen(false)}
         handleUpdateScore={handleUpdateScore}
-      />
+      />)}
     </>
   );
 }

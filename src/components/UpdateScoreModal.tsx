@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { message, Modal, InputNumber } from 'antd';
+import { Game } from '../models/Game';
 
 interface PropType {
-  gameId: string
+  game: Game
   isOpen: boolean
   close: () => void
   handleUpdateScore: (id: string, homeTeamScore: number, awayTeamScore: number) => void
 }
 
-const UpdateScoreModal = ({ gameId, isOpen, close, handleUpdateScore }: PropType) => {
+const UpdateScoreModal = ({ game, isOpen, close, handleUpdateScore }: PropType) => {
   const [homeTeamScore, setHomeTeamScore] = useState(0);
   const [awayTeamScore, setAwayTeamScore] = useState(0);
   const [messageApi, contextHolder] = message.useMessage();
+
+  useEffect(() => {
+    setHomeTeamScore(game.homeTeamScore);
+    setAwayTeamScore(game.awayTeamScore);
+  }, [game])
 
   const onHomeTeamScoreChange = (value: number | null) => {
     if (value) setHomeTeamScore(value);
@@ -29,7 +35,7 @@ const UpdateScoreModal = ({ gameId, isOpen, close, handleUpdateScore }: PropType
 
   const handleOk = () => {
     try {
-      handleUpdateScore(gameId, homeTeamScore, awayTeamScore);
+      handleUpdateScore(game.id, homeTeamScore, awayTeamScore);
       closeAndReset();
     } catch (e) {
       if (e instanceof Error) {
@@ -45,11 +51,20 @@ const UpdateScoreModal = ({ gameId, isOpen, close, handleUpdateScore }: PropType
     <>
       {contextHolder}
       <Modal title="Update Score" open={isOpen} onOk={handleOk} onCancel={closeAndReset}>
-        <br />
-        <InputNumber min={0} addonBefore="Home team Score" value={homeTeamScore} onChange={onHomeTeamScoreChange} />
-        <br />
-        <br />
-        <InputNumber min={0} addonBefore="Away team Score" value={awayTeamScore} onChange={onAwayTeamScoreChange} />
+        <InputNumber
+          style={{ marginTop: 8 }}
+          min={0}
+          addonBefore={`${game.homeTeam}'s Score`}
+          value={homeTeamScore}
+          onChange={onHomeTeamScoreChange}
+        />
+        <InputNumber
+          style={{ marginTop: 8 }}
+          min={0}
+          addonBefore={`${game.awayTeam}'s Score`}
+          value={awayTeamScore}
+          onChange={onAwayTeamScoreChange}
+        />
       </Modal>
     </>
   );
