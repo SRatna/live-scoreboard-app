@@ -46,3 +46,10 @@ export const updateScore = (
     return game;
   });
 }
+
+export const endGame = (currentGames: Game[], gameId: string) => {
+  if (!currentGames.length) throw new Error('Empty scoreboard!');
+  const game: Game | undefined = currentGames.find(({ id }) => id === gameId);
+  if (!game) throw new Error('Game not found!');
+  return currentGames.filter(({ id }) => id !== gameId);
+}

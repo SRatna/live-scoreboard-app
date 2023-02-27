@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { Game } from '../models/Game';
-import { startNewGame, addNewGameToScoreboard, updateScore } from './index';
+import { startNewGame, addNewGameToScoreboard, updateScore, endGame } from './index';
 
 describe('helper function: start new game', () => {
   test('throws: empty team names', () => {
@@ -78,5 +78,44 @@ describe('helper function: update score', () => {
     const scoreboard: Game[] = updateScore(games, '123', 1, 2);
     expect(scoreboard[0].homeTeamScore).toBe(1);
     expect(scoreboard[0].awayTeamScore).toBe(2);
+  });
+});
+
+describe('helper function: end game', () => {
+  const games: Game[] = [
+    {
+      id: '123',
+      homeTeam: 'abc',
+      homeTeamScore: 0,
+      awayTeam: 'xyz',
+      awayTeamScore: 3,
+      startedAt: Date.now()
+    },
+    {
+      id: '456',
+      homeTeam: 'efg',
+      homeTeamScore: 3,
+      awayTeam: 'ijk',
+      awayTeamScore: 3,
+      startedAt: Date.now()
+    }
+  ]
+
+  test('throws on empty games', () => {
+    expect(() => { endGame([], '') }).toThrow('Empty scoreboard!');
+  });
+
+  test('throws on empty game id', () => {
+    expect(() => { endGame(games, '') }).toThrow('Game not found!');
+  });
+
+  test('throws on invalid game id', () => {
+    expect(() => { endGame(games, '321') }).toThrow('Game not found!');
+  });
+
+  test('returns new scoreboard a game removed', () => {
+    const scoreboard: Game[] = endGame(games, '123');
+    expect(scoreboard).toHaveLength(1);
+    expect(scoreboard[0].id).toBe('456');
   });
 });
