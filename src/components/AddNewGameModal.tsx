@@ -36,11 +36,18 @@ const AddNewGameModal = ({ isOpen, close, addNewGame }: PropType) => {
     <>
       {contextHolder}
       <Modal title="Add New Game" open={isOpen} onOk={handleOk} onCancel={closeAndReset}>
-        <br />
-        <Input addonBefore="Home team name" value={homeTeamName} onChange={(e) => setHomeTeamName(e.target.value)} />
-        <br />
-        <br />
-        <Input addonBefore="Away team name" value={awayTeamName} onChange={(e) => setAwayTeamName(e.target.value)} />
+        <Input
+          style={{ marginTop: 8 }}
+          addonBefore="Home team name"
+          value={homeTeamName}
+          onChange={(e) => setHomeTeamName(e.target.value)}
+        />
+        <Input
+          style={{ marginTop: 8 }}
+          addonBefore="Away team name"
+          value={awayTeamName}
+          onChange={(e) => setAwayTeamName(e.target.value)}
+        />
       </Modal>
     </>
   );
