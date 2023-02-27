@@ -1,15 +1,15 @@
 import { List } from 'antd';
-import { Score } from '../models/Game';
+import { Game } from '../models/Game';
 
 interface PropType {
-  scores: Score[]
+  games: Game[]
 }
 
-const ScoreBoardList = ({ scores }: PropType) => {
+const ScoreBoardList = ({ games }: PropType) => {
   return (
     <List
       itemLayout="horizontal"
-      dataSource={scores}
+      dataSource={games}
       renderItem={(item) => (
         <List.Item>
           <List.Item.Meta

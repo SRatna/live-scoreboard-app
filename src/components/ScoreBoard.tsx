@@ -1,31 +1,33 @@
 import { Typography, Button } from 'antd';
-import { Score } from '../models/Game';
+import { useState } from 'react';
+import { startNewGame } from '../helpers';
+import { Game } from '../models/Game';
+import AddNewGameModal from './AddNewGameModal';
 import ScoreBoardList from './ScoreBoardList';
 
 const { Title } = Typography;
 
 const ScoreBoard = () => {
-  const scores: Score[] = [
-    {
-      homeTeam: "Nepal",
-      homeTeamScore: 2,
-      awayTeam: "India",
-      awayTeamScore: 4
-    },
-    {
-      homeTeam: "Mexico",
-      homeTeamScore: 1,
-      awayTeam: "Spain",
-      awayTeamScore: 4
-    }
-  ]
+  const [games, setGames] = useState<Game[]>([]);
+  const [isAddGameModalOpen, setIsAddGameModalOpen] = useState(false);
+
+  const addNewGame = (homeTeamName: string, awayTeamName: string) => {
+    const updatedGames = startNewGame(games, homeTeamName, awayTeamName)
+    setGames(updatedGames);
+  }
+  
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Title style={{ marginTop: 0 }} level={4}>Live Score Board</Title>
-        <Button type="primary">Start New Game</Button>
+        <Button type="primary" onClick={() => setIsAddGameModalOpen(true)}>Start New Game</Button>
       </div>
-      <ScoreBoardList scores={scores} />
+      <ScoreBoardList games={games} />
+      <AddNewGameModal
+        isOpen={isAddGameModalOpen}
+        close={() => setIsAddGameModalOpen(false)}
+        addNewGame={addNewGame}
+      />
     </>
   )
 }
