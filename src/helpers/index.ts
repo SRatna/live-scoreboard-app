@@ -1,6 +1,6 @@
-import { Score } from "../models/Score";
+import { Game } from "../models/Game";
 
-export const getEmptyScore = (homeTeam: string, awayTeam: string) => {
+export const startNewGame = (homeTeam: string, awayTeam: string) => {
   if (!homeTeam && !awayTeam) {
     throw new Error('Empty team names!');
   }
@@ -14,13 +14,14 @@ export const getEmptyScore = (homeTeam: string, awayTeam: string) => {
     homeTeam,
     homeTeamScore: 0,
     awayTeam,
-    awayTeamScore: 0
+    awayTeamScore: 0,
+    startedAt: Date.now()
   }
 }
 
-export const addEmptyScore = (currentScores: Score[], emptyScore: Score) => {
+export const addNewGameToScoreboard = (currentGames: Game[], newGame: Game) => {
   return [
-    emptyScore,
-    ...currentScores
+    newGame,
+    ...currentGames
   ];
 }

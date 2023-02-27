@@ -1,5 +1,5 @@
 import { Typography, Button } from 'antd';
-import { Score } from '../models/Score';
+import { Score } from '../models/Game';
 import ScoreBoardList from './ScoreBoardList';
 
 const { Title } = Typography;

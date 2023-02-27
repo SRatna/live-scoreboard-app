@@ -1,5 +1,5 @@
 import { List } from 'antd';
-import { Score } from '../models/Score';
+import { Score } from '../models/Game';
 
 interface PropType {
   scores: Score[]
