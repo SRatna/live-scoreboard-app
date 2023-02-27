@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { Game } from '../models/Game';
-import { startNewGame, updateScore, endGame } from './index';
+import { startNewGame, updateScore, endGame, sortGames } from './index';
 
 const games: Game[] = [
   {
@@ -9,16 +9,24 @@ const games: Game[] = [
     homeTeamScore: 0,
     awayTeam: 'xyz',
     awayTeamScore: 3,
-    startedAt: Date.now()
+    startedAt: 1677498753522 // oldest
   },
   {
     id: '456',
     homeTeam: 'efg',
-    homeTeamScore: 3,
+    homeTeamScore: 0,
     awayTeam: 'ijk',
     awayTeamScore: 3,
-    startedAt: Date.now()
-  }
+    startedAt: 1677499361107 // newest
+  },
+  {
+    id: '789',
+    homeTeam: 'ger',
+    homeTeamScore: 3,
+    awayTeam: 'jap',
+    awayTeamScore: 3,
+    startedAt: 1677499108101
+  },
 ]
 
 describe('helper function: start new game', () => {
@@ -48,7 +56,7 @@ describe('helper function: start new game', () => {
 
   test('returns new game added on scoreboard', () => {
     const scoreboard: Game[] = startNewGame(games, 'mno', 'pqr');
-    expect(scoreboard).toHaveLength(3);
+    expect(scoreboard).toHaveLength(4);
     expect(scoreboard[0]).toHaveProperty('homeTeam', 'mno');
     expect(scoreboard[0]).toHaveProperty('homeTeamScore', 0);
     expect(scoreboard[0]).toHaveProperty('awayTeam', 'pqr');
@@ -101,9 +109,23 @@ describe('helper function: end game', () => {
     expect(() => { endGame(games, '321') }).toThrow('Game not found!');
   });
 
-  test('returns new scoreboard a game removed', () => {
+  test('returns new scoreboard with a game removed', () => {
     const scoreboard: Game[] = endGame(games, '123');
-    expect(scoreboard).toHaveLength(1);
+    expect(scoreboard).toHaveLength(2);
     expect(scoreboard[0].id).toBe('456');
+  });
+});
+
+describe('helper function: sort games', () => {
+  test('throws on empty games', () => {
+    expect(() => { sortGames([]) }).toThrow('Empty scoreboard!');
+  });
+
+  test('returns new scoreboard with sorted games', () => {
+    const scoreboard: Game[] = sortGames(games);
+    expect(scoreboard).toHaveLength(3);
+    expect(scoreboard[0].id).toBe('789');
+    expect(scoreboard[1].id).toBe('456');
+    expect(scoreboard[2].id).toBe('123');
   });
 });

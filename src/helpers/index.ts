@@ -49,3 +49,16 @@ export const endGame = (currentGames: Game[], gameId: string) => {
   if (!game) throw new Error('Game not found!');
   return currentGames.filter(({ id }) => id !== gameId);
 }
+
+export const sortGames = (currentGames: Game[]) => {
+  if (!currentGames.length) throw new Error('Empty scoreboard!');
+  // create a copy of current games
+  const sortedGames = currentGames.map((game) => ({ ...game }));
+  // sort by most recently started game
+  sortedGames.sort((a, b) => b.startedAt - a.startedAt);
+  // sort by total score
+  sortedGames.sort(
+    (a, b) => (b.homeTeamScore + b.awayTeamScore) - (a.homeTeamScore + a.awayTeamScore)
+    );
+  return sortedGames;
+}
