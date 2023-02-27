@@ -1,3 +1,5 @@
+import { Score } from "../models/Score";
+
 export const getEmptyScore = (homeTeam: string, awayTeam: string) => {
   if (!homeTeam && !awayTeam) {
     throw new Error('Empty team names!');
@@ -14,4 +16,11 @@ export const getEmptyScore = (homeTeam: string, awayTeam: string) => {
     awayTeam,
     awayTeamScore: 0
   }
+}
+
+export const addEmptyScore = (currentScores: Score[], emptyScore: Score) => {
+  return [
+    emptyScore,
+    ...currentScores
+  ];
 }
